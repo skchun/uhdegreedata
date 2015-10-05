@@ -1,6 +1,6 @@
 # Overview
 
-Provides 6 functions for computer analytics over the [Hawaii Open Dataset for Five Years of UH Degree Data](http://philipmjohnson.github.io/ics314f15/morea/underscore/experience-underscore.html).
+Provides 7 functions for computer analytics over the [Hawaii Open Dataset for Five Years of UH Degree Data](http://philipmjohnson.github.io/ics314f15/morea/underscore/experience-underscore.html).
 
 # Installation
 
@@ -22,6 +22,7 @@ Here are example calls to the analytic functions
   console.log(percentageHawaiian(uhdata));
   console.log(dataForYear(uhdata, 2011));
   console.log(totalDegreesByYear(uhdata, 2010));
+  console.log(doctoralDegree(uhdata));
 </script>
 ```
 

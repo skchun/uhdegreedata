@@ -81,3 +81,60 @@ function totalDegreesByYear(data, year){
   return _.reduce(dataForYear(data, year), addDegrees, 0);
 }
 
+/**
+ * listCampuses returns the unique campuses from the data set
+ * @param data The data inputted
+ * @returns {*}
+ */
+function listCampuses(data){
+  return _.uniq(_.pluck(data, "CAMPUS"));
+}
+
+/**
+ * A helper function that returns the data grouped by campus
+ * @param data The inputted data
+ * @returns {*}
+ */
+function groupByCampus(data){
+  return _.groupBy(data, "CAMPUS");
+}
+
+/**
+ * listCampusDegres returns the amount of degrees from each campus
+ * @param data The inputted data
+ * @returns {*}
+ */
+function listCampusDegrees(data){
+  return _.mapObject(groupByCampus(data),
+      function(val, key){
+        return _.reduce(val, addDegrees, 0);
+      })
+}
+
+/**
+ * A helper function that returns the data grouped by year.
+ * @param data The inputted data
+ * @returns {*}
+ */
+function groupByYear(data){
+  return _.groupBy(data, "FISCAL_YEAR")
+}
+
+/**
+ * listYearDegrees returns the maximum degrees based on year
+ * @param data The inputted data
+ * @returns {number}
+ */
+function listYearDegrees(data){
+  return _.max(_.mapObject(groupByYear(data), function(val,key){return _.reduce(val, addDegrees, 0)}))
+
+}
+
+/**
+ * doctoralDegree returns the amount of doctoral degrees from the data set
+ * @param data The inputted data
+ * @returns {*}
+ */
+function doctoralDegree(data){
+  return _.uniq(_.pluck(_.filter(data, function(num){return num["OUTCOME"] === "Doctoral Degrees"}), "CIP_DESC"))
+}
