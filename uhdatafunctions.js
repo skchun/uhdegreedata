@@ -4,7 +4,10 @@
  */
 
 /* globals _, uhdata */
-/* exported uhdata, percentageHawaiian, totalDegreesByYear */
+/* exported listCampusDegrees, doctoralDegree, listYearDegrees */
+/* exported testData, percentageHawaiian, totalDegreesByYear, listCampuses */
+
+var testData = uhdata.slice(0, 2).concat(_.find(uhdata, isHawaiian));
 
 /**
  * A helper function that returns the added degrees from the inputted data
@@ -13,7 +16,19 @@
  * @returns {*}
  */
 function addDegrees(memo, num){
+  if(isNaN(num["AWARDS"])){
+    throw new Error("Non integer value");
+  }
   return memo + num["AWARDS"];
+}
+
+/**
+ * Returns true if the passed record has an AWARDS field
+ * @param record The record
+ * @returns {boolean} TRUE if AWARDS field present
+ */
+function hasAwards(record){
+  return record.hasOwnProperty("AWARDS");
 }
 
 /**
@@ -22,6 +37,9 @@ function addDegrees(memo, num){
  * @returns {*}
  */
 function totalDegrees(data){
+  if(!_.every(data, hasAwards)){
+    throw new Error("No AWARDS field.");
+  }
   return _.reduce(data, addDegrees, 0);
 }
 
@@ -106,9 +124,9 @@ function groupByCampus(data){
  */
 function listCampusDegrees(data){
   return _.mapObject(groupByCampus(data),
-      function(val, key){
+      function(val){
         return _.reduce(val, addDegrees, 0);
-      })
+      });
 }
 
 /**
@@ -117,7 +135,7 @@ function listCampusDegrees(data){
  * @returns {*}
  */
 function groupByYear(data){
-  return _.groupBy(data, "FISCAL_YEAR")
+  return _.groupBy(data, "FISCAL_YEAR");
 }
 
 /**
@@ -126,7 +144,9 @@ function groupByYear(data){
  * @returns {number}
  */
 function listYearDegrees(data){
-  return _.max(_.mapObject(groupByYear(data), function(val,key){return _.reduce(val, addDegrees, 0)}))
+  return _.max(_.mapObject(groupByYear(data), function(val){
+    return _.reduce(val, addDegrees, 0);
+  }));
 
 }
 
@@ -136,5 +156,7 @@ function listYearDegrees(data){
  * @returns {*}
  */
 function doctoralDegree(data){
-  return _.uniq(_.pluck(_.filter(data, function(num){return num["OUTCOME"] === "Doctoral Degrees"}), "CIP_DESC"))
+  return _.uniq(_.pluck(_.filter(data, function(num) {
+    return num["OUTCOME"] === "Doctoral Degrees";
+  }), "CIP_DESC"));
 }

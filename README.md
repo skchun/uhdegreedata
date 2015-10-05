@@ -17,11 +17,11 @@ Here are example calls to the analytic functions
 ```
 <script>
   console.log(totalDegrees(uhdata));
-  console.log(hawaiianLegacy(uhdata));
-  console.log(totalHawaiianLegacy(uhdata));
   console.log(percentageHawaiian(uhdata));
-  console.log(dataForYear(uhdata, 2011));
   console.log(totalDegreesByYear(uhdata, 2010));
+  console.log(listCampuses(uhdata));
+  console.log(listCampusDegrees(uhdata));
+  console.log(listYearDegrees(uhdata));
   console.log(doctoralDegree(uhdata));
 </script>
 ```
